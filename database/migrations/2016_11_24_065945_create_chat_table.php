@@ -19,6 +19,7 @@ class CreateChatTable extends Migration
             $table->integer('chack');
             $table->integer('user_id');
             $table->string('user_name');
+            $table->string('img');
             $table->timestamps();
         });
     }

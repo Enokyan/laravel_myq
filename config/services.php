@@ -28,6 +28,7 @@ return [
     'facebook' => [
         'client_id' => '159258601213897',
         'client_secret' => '901829799d2f9193aeb2e7c76495721e',
+        'scope' => 'email',
         'redirect' => 'http://joni.am/callback/facebook',
     ],
 

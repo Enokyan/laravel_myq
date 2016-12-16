@@ -51,10 +51,17 @@
                 </div>
             </div>
         </div>
+
+        {{--two chat--}}
         <div class="users">
             <input type="text" class="users_all tt-query" autocomplete="off" spellcheck="false">
+            <br><br>
+
         </div>
+{{--///two chat--}}
         <div class="twochat">
+
+            <div class="sms"></div>
             <div class="friend_name"></div>
             <div class="name_friend" id="0"></div>
             <div class="friend_msg"></div>
@@ -75,15 +82,11 @@
         <input type="text" class="typeahead tt-query" autocomplete="off" spellcheck="false">
     </div>
 </body>
-{{--<script  type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>--}}
-{{--<script  type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>--}}
-
-{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>--}}
-{{--<script  type="text/javascript" src="../js/typeahead/0.11.1/typeahead.bundle.js"></script>--}}
-{{--<script>--}}
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.0.0.min.js"></script>
-<script type="text/javascript" src="//netsh.pp.ua/upwork-demo/1/js/typeahead.js"></script>
-<script type="text/javascript">
+{{--<!-- Jquery -->--}}
+{{--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=en-US"></script>--}}
+{{--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.9.3/typeahead.min.js"></script>--}}
+{{--<script type="text/javascript" src="https://rawgithub.com/sgruhier/typeahead-addresspicker/master/dist/typeahead-addresspicker.js"></script>--}}
+<script>
     $( document ).ready(function() {
 //users_all
             $( ".users_all" ).keyup(function() {
@@ -95,40 +98,17 @@
                 data:{search_users:search_users},
                 success:function(data_all)
                 {
-
                     var users=[];
                     var user_id=[]
-
                     $( ".user_choose" ).remove();
-
                     for(var i=0;i<data_all.length;i++){
                         user_id[i]=data_all[i].id;
                         users[i]=data_all[i].name;
                         $('.users').append('<div  style="clear:both" class="name_friend user_choose danger" id='+data_all[i].id+'>'+data_all[i].name+ '</div>')
                     }
-                    console.log(users)
-
                 }
             });
         })
-        {{--users=['Jon','qqq','a@a.com']--}}
-        {{--var users = new Bloodhound({--}}
-            {{--datumTokenizer: Bloodhound.tokenizers.whitespace,--}}
-            {{--queryTokenizer: Bloodhound.tokenizers.whitespace,--}}
-            {{--local: users--}}
-        {{--});--}}
-
-        {{--// Initializing the typeahead--}}
-        {{--$('.typeahead').typeahead({--}}
-                {{--hint: true,--}}
-                {{--highlight: true, /* Enable substring highlighting */--}}
-                {{--minLength: 1 /* Specify minimum characters required for showing result */--}}
-            {{--},--}}
-            {{--{--}}
-                {{--name: 'users',--}}
-                {{--source: users--}}
-            {{--});--}}
-
 //usser send
     $(document).on('click', '#send-sms', function(e){
         var msg = $('.send').val();
@@ -224,6 +204,9 @@
             $('.ajax2_div').remove();
         })
 //user send 2
+        $(document).on('click', '.send2', function(e){
+//            alert(1)
+        })
         $(document).on('click', '#send_sms2', function(e){
             var msg = $('.send2').val();
             var friend_id=$('.name_friend').attr('id');
@@ -257,48 +240,72 @@
             }
 
         });
-    // ajax formData send2
+// ajax formData send2
 
-        function liveChat2(){
-            var friend_id=$('.name_friend').attr('id');
-                $.ajax({
-                    url: '{{url("ajax2")}}',
-                    data: {_token: '{{csrf_token()}}', friend_id: friend_id},
-                    success: function (data_all) {
-                        if (data_all != 0) {
-                            var arr = JSON.parse(data_all);
-                            if (arr['image_name'] != 0) $('.friend_msg').append('<div  style="float:left" class="alert alert-info ajax2_div">' + arr['msg'] + ' <br><br> <img  src="../img/chattwo/' + arr['image_name'] + '" ></div>')
-                            else   $('.friend_msg').append('<div  style="float:left" class="alert alert-info ajax2_div">' + arr['msg'] + '  </div>')
-                        }
-                    }
-                });
+        {{--function liveChat2(){--}}
+            {{--var friend_id=$('.name_friend').attr('id');--}}
+            {{--console.log(friend_id)--}}
+                {{--$.ajax({--}}
+                    {{--url: '{{url("ajax2")}}',--}}
+                    {{--data: {_token: '{{csrf_token()}}', friend_id: friend_id},--}}
+                    {{--success: function (data_all) {--}}
+                        {{--if (data_all != 0) {--}}
+                            {{--var arr = JSON.parse(data_all);--}}
+                            {{--console.log(arr['friend_id_new'])--}}
+                            {{--if(friend_id==arr['friend_id_new'])--}}
+                            {{--if (arr['image_name'] != 0) $('.friend_msg').append('<div  style="float:left;clear:both" class="alert alert-info ajax2_div">' + arr['msg'] + ' <br><br> <img  src="../img/chattwo/' + arr['image_name'] + '" ></div>')--}}
+                            {{--else   $('.friend_msg').append('<div  style="float:left;clear:both" class="alert alert-info ajax2_div">' + arr['msg'] + '  </div>')--}}
+                        {{--}--}}
+                    {{--}--}}
+                {{--});--}}
 
-        }
-        setInterval(liveChat2,1000);
+        {{--}--}}
+        {{--setInterval(liveChat2,1000);--}}
+//ajax msg_count_name
+        {{--function liveChat3(){--}}
+            {{--$.ajax({--}}
+                {{--url: '{{url("ajax3")}}',--}}
+                {{--headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },--}}
+                {{--success: function (data_all_count) {--}}
+                    {{--var arr_all = JSON.parse(data_all_count);--}}
+
+                    {{--if(arr_all != '') {--}}
+                        {{--arr_name = [];--}}
+                        {{--for (j = 0; j < arr_all.length; j++) {--}}
+                            {{--arr_name[j] = arr_all[j];--}}
+
+                            {{--$('#'+arr_name[j].id+'').remove();--}}
+                            {{--$('.sms').append('<div  style="float:right" id='+arr_name[j].id+' class="user_choose new_message">' +  arr_name[j].name + '  </div>')--}}
+                        {{--}--}}
+                        {{--console.log(arr_all.length)--}}
+                    {{--}--}}
+                {{--}--}}
+            {{--});--}}
+
+        {{--}--}}
+        {{--setInterval(liveChat3,1000);--}}
 
 
-
-
-
-        var cars = ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen'];
-
-        // Constructing the suggestion engine
-        var cars = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: cars
-        });
-
-        // Initializing the typeahead
-        $('.typeahead').typeahead({
-                hint: true,
-                highlight: true, /* Enable substring highlighting */
-                minLength: 1 /* Specify minimum characters required for showing result */
-            },
-            {
-                name: 'cars',
-                source: cars
-            });
+///////////////////////////////////
+//        var cars = ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen'];
+//
+//        // Constructing the suggestion engine
+//        var cars = new Bloodhound({
+//            datumTokenizer: Bloodhound.tokenizers.whitespace,
+//            queryTokenizer: Bloodhound.tokenizers.whitespace,
+//            local: cars
+//        });
+//
+//        // Initializing the typeahead
+//        $('.typeahead').typeahead({
+//                hint: true,
+//                highlight: true, /* Enable substring highlighting */
+//                minLength: 1 /* Specify minimum characters required for showing result */
+//            },
+//            {
+//                name: 'cars',
+//                source: cars
+//            });
 });
 </script>
 @stop

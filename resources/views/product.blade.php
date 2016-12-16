@@ -1,3 +1,5 @@
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -6,10 +8,10 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading"><h1>All_Product</h1></div>
-   
+
                 <div class="panel-body">
                 <table border="1px solid">
-                    <?php foreach ($product as $result): ?>   
+                    <?php foreach ($product as $result): ?>
                         <tr id=<?php echo $result->id;?>>
                             <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $result->name_product;?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
                             <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $result->price;?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
@@ -19,11 +21,10 @@
                         </tr>
                     <?php endforeach ?>
                 </table>
-                    {!! $product->links() !!}    
+                    {!! $product->links() !!}
                 </div>
             </div>
         </div>
     </div>
 </div>
 @stop
- 

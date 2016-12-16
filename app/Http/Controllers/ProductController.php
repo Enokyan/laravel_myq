@@ -45,6 +45,6 @@ class ProductController extends BaseController{
 				['name_product' => $name_product, 'price' => $price, 
 				'id_user' => $auth_id, 'image_name'=>$filename]
 			);
-		return view('home');
+        return redirect('home');
 	}
 }

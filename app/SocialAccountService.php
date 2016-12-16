@@ -2,6 +2,7 @@
 namespace App;
 
 use Laravel\Socialite\Contracts\User as ProviderUser;
+use DB;
 
 class SocialAccountService
 {
@@ -18,7 +19,9 @@ class SocialAccountService
 				'provider_user_id' => $providerUser->getId(),
 				'provider' => $provider
 			]);
-			$user = User::whereEmail($providerUser->getEmail())->first();
+			$user = DB::table('social_accounts')->where('provider_user_id',$providerUser->getId())->first();
+
+//			$user = User::whereId($providerUser->getEmail())->first();
 			if(!$user){
 				$user = User::create([
 					'email' => $providerUser->getEmail(),

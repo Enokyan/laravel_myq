@@ -20,6 +20,7 @@ class CreateTwochatTable extends Migration
             $table->integer('user_id');
             $table->string('user_id_new');
             $table->integer('status');
+            $table->integer('notification');
             $table->string('img');
             $table->timestamps();
         });

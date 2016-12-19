@@ -112,8 +112,4 @@ class UsersController extends BaseController{
             return  'success';
        }
     }
-    public function datark(){
-        return 'true';
-    }
-
 }

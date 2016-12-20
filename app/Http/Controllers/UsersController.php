@@ -70,7 +70,7 @@ class UsersController extends BaseController{
         $friendRequest = DB::table('userfriendstables')
             ->select('userfriendstables.table_id', 'userfriendstables.from_user', 'users.name')
             ->where('to_user', $userId)
-            ->where('status', 0)
+            ->where('userfriendstables.status', 0)
             ->leftJoin('users', 'users.id', '=', 'userfriendstables.from_user')
             ->get();
 
@@ -83,7 +83,7 @@ class UsersController extends BaseController{
         $friendRequest = DB::table('userfriendstables')
             ->select('userfriendstables.table_id', 'userfriendstables.from_user', 'users.name')
             ->where('to_user', $userId)
-            ->where('status', 0)
+            ->where('userfriendstables.status', 0)
             ->leftJoin('users', 'users.id', '=', 'userfriendstables.from_user')
             ->get();
 

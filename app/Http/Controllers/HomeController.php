@@ -36,6 +36,7 @@ class HomeController extends Controller
     {
         $auth_id = Auth::id();
         $user = DB::table('users')->select('*')->where('id', '=', $auth_id)->get();
+        $update = DB::table('users')->where('id', '=', $auth_id)->where('online','!=',1)->update(['online' => 1]);
         $user_friend= DB::table('users')->select('*')->where('id', '!=', $auth_id)->get();
         return view('home', ['myuser' => $user ],[ 'user_friend' => $user_friend]);
     }

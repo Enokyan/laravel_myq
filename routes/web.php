@@ -29,6 +29,11 @@ Route::post('chat2/add2',           'ChatTwoController@store');
 Route::get('ajax2',                 'ChatTwoController@select_new');
 Route::get('ajax3',                 'ChatTwoController@select_count_name');
 
+//online friend
+Route::get('online_friend',         'ChatTwoController@online_friend');
+Route::get('logaut_online',         'ChatTwoController@logaut_online');
+
+
 //users select chat
 Route::post('users/select',          ['uses' => 'ChatTwoController@users_select']);
 

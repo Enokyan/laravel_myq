@@ -49,6 +49,22 @@
         <button id="send_sms2">send2</button> &nbsp;&nbsp;&nbsp;&nbsp; <span id="pdf_sms">Send sms to email</span> <br>
 
     </div>
+
+    <div class="my_friends ">
+
+        @foreach($friends as $friend)
+
+            <div class="bg-info my_friend" id="my_friend_{{$friend->id}}">{{$friend->name}}
+
+
+
+
+
+
+            </div>
+
+        @endforeach
+    </div>
 </div>
 
 
@@ -214,14 +230,30 @@
         }
         setInterval(liveChat3,1000);
 
+//        online friendd
+        function online_friend(){
+            $.ajax({
+                type: 'get',
+                url: '{{url("online_friend")}}',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                success: function (data_all_count) {
+                    var online_friend = $.parseJSON(data_all_count);
+                    $('.online').remove();
+                    $('.noonline').remove();
+                    $.each(online_friend,function(key,value){
+                        if(value.online == 1) {
+                            $('#my_friend_' + value.id).append('<div class="online"></div>');
 
+                        }
+                        else{
+                            $('#my_friend_' + value.id).append('<div class="noonline"></div>');
+                        }
+                    });
+                }
+            });
 
-//    chat two
-//        $(document).on('click', '.send2', function(e){
-////            alert(1)
-//        })
-
-
+        }
+        setInterval(online_friend,1000);
     });
 </script>
 @stop
@@ -248,5 +280,39 @@
     }
     .clear{
         clear:both;
+    }
+
+
+    /*my friend*/
+
+    .my_friends  {
+        width:30%;
+        float:right;
+        background-color: #151515;
+    }
+
+    .my_friend{
+        width:90%;
+        font-size: 30px;
+        margin: 2% auto;
+    }
+
+    .online{
+        border-radius: 50%;
+        background-color: #00dd00;
+        width: 20px;
+        height: 20px;
+        float:right;
+        margin-top: 5%;
+        margin-right: 5%;
+    }
+    .noonline{
+        border-radius: 50%;
+        background-color: #761c19;
+        width: 20px;
+        height: 20px;
+        float:right;
+        margin-top: 5%;
+        margin-right: 5%;
     }
 </style>

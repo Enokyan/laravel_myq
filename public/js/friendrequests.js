@@ -101,5 +101,15 @@ $(document).ready(function(){
         })
     });
 
-
+    // .logaut_online
+    $(document).on('click','.logaut_online',function(){
+        $.ajax({
+            url: 'logaut_online',
+            type: 'get',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: function (data) {
+            }
+        })
+    })
 });
+

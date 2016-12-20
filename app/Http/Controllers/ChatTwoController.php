@@ -15,7 +15,30 @@ use App\Http\Controllers\Controller;
 class ChatTwoController extends BaseController
 {
     public function index(){
-        return view('twochat');
+        $auth_id = Auth::id();
+
+
+
+//        $friends = DB::table('users')
+//            ->join('userfriendstables', 'users.id', '=', 'userfriendstables.to_user')
+//            ->where('userfriendstables.status', '1')
+//            ->where('from_user','=',$auth_id)->orWhere('to_user', '=', $auth_id)->get();
+//        dump($friends);
+        $friends = DB::table('users')
+            ->leftJoin('userfriendstables', function($join)
+            {
+                $auth_id = Auth::id();
+                $join->on('users.id', '=', 'userfriendstables.to_user')
+                    ->where('from_user','=',$auth_id)
+                    ->orOn('users.id', '=', 'userfriendstables.from_user')
+                    ->Where('to_user','=',$auth_id);
+            })
+
+            ->where('userfriendstables.status', '1')
+            ->get();
+
+
+        return view('twochat' , ['friends' => $friends]);
     }
 //////////////// selectid users //////////true
     public function users_select(Request $request){
@@ -103,16 +126,25 @@ class ChatTwoController extends BaseController
         $auth_id = Auth::id();
         $users = DB::table('twochat')
             ->leftJoin('users', 'twochat.user_id', '=', 'users.id')->where('twochat.user_id_new', '=', $auth_id)->where('twochat.status', '=', 0)->where('twochat.notification','=','0')->first();
-        DB::table('twochat')->where('user_id_new', '=', $auth_id)->update(['status' => '1']);
+        DB::table('twochat')->where('user_id_new', '=', $auth_id)->update(['twochat.status' => '1']);
         if($users!=null)
         $user_id = $users->user_id;
 
-//         ->where('user_id','=','')
         $count_all = DB::table('twochat')->select('*')->where('user_id_new', '=', $auth_id)->where('user_id','=',$user_id)->where('notification','=','0')->get();
         $count = count($count_all);
-//        $user_id='1a';
 
         $arr=array(0 => $count, 1=>json_encode($users), 2 => $user_id);
         return $arr;
+    }
+
+    public function online_friend(){
+        $friends_online = DB::table('users')->select('*')->get();
+//        echo 'true';
+        return json_encode($friends_online);
+    }
+
+    public function logaut_online(){
+        $auth_id = Auth::id();
+        $update = DB::table('users')->where('id', '=', $auth_id)->update(['online' => 0]);
     }
 }

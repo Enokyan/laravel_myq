@@ -8,7 +8,10 @@ use App\Http\Requests;
 
 use App\SocialAccountService;
 
-use Socialite;	
+use Socialite;
+
+use Auth;
+use DB;
 
 class SocialAuthController extends Controller
 {
@@ -21,6 +24,8 @@ class SocialAuthController extends Controller
 	{
 		$user = $service->createOrGetUser($provider,Socialite::driver($provider)->user());
 		auth()->login($user);
+        $auth_id = Auth::id();
+        $update = DB::table('users')->where('id', '=', $auth_id)->update(['online' => 1]);
 		return redirect('home');
 	}
 }

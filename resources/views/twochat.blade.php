@@ -18,7 +18,65 @@
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <style>
+        .users{
+            width: 20%;
+            float: left;
+            margin-left: 4%;
+        }
+        .twochat{
+            width: 40%;
+            float:left;
+            background-color:#499249;
+            margin-left: 3%;
+            padding: 2%;
+        }
+        .name_friend, .name_friend2{
+            background-color: #0e0e0e ;
+            color: #EEEEEE;
+            margin-bottom: 1%;
+            padding: 2%;border-radius: 10px;
+            clear: both;
+            /*float:right;*/
+        }
+        .clear{
+            clear:both;
+        }
 
+
+        /*my friend*/
+
+        .my_friends  {
+            width:30%;
+            float:right;
+            background-color: #151515;
+        }
+
+        .my_friend{
+            width:90%;
+            font-size: 30px;
+            margin: 2% auto;
+        }
+
+        .online{
+            border-radius: 50%;
+            background-color: #00dd00;
+            width: 20px;
+            height: 20px;
+            float:right;
+            margin-top: 5%;
+            margin-right: 5%;
+        }
+        .noonline{
+            border-radius: 50%;
+            background-color: #761c19;
+            width: 20px;
+            height: 20px;
+            float:right;
+            margin-top: 5%;
+            margin-right: 5%;
+        }
+    </style>
 
 </head>
 <body style="background: rgb(180,180,180)">
@@ -56,18 +114,36 @@
 
             <div class="bg-info my_friend" id="my_friend_{{$friend->id}}">{{$friend->name}}
 
-
-
-
-
-
             </div>
 
         @endforeach
     </div>
 </div>
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="message-text" class="form-control-label">Change Message:</label>
+                    <textarea class="form-control" id="message-text" style="resize:none"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary save_changes" data-dismiss="modal">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 </body>
 <script>
     $( document ).ready(function() {
@@ -95,11 +171,12 @@
 
 {{--//////////@ntrel userin chat two--}} //true
         $(document).on('click', '.user_choose', function(e){
-
             var friend_name=$(this).text();
             var friend_id=$(this).attr('id');
-            $( ".name_friend" ).remove();
+            $( ".name_friend").remove();
             $( this ).remove();
+            $('.send2').attr('user',friend_id);
+            setInterval(updatedmessages, 3000);
             $('.friend_name').append('<div class="name_friend" style="clear:both" id='+friend_id+'><span>'+friend_name+ '</span></div>');
             $.ajax({
                 type:'post',
@@ -111,23 +188,23 @@
                     for(var i=0;i<result_twochat.length;i++){
                         if(friend_id != result_twochat[i].user_id){
                             if(result_twochat[i].img !=0) {
-                                $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:right">'+result_twochat[i].msg +'<br> <br> <img  src="../img/chattwo/'+result_twochat[i].img+'" ></div>')
+                                $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:right" id="msg_'+result_twochat[i].id+'">'+result_twochat[i].msg +'<br> <br> <img  src="../img/chattwo/'+result_twochat[i].img+'" ><span class="glyphicon glyphicon-trash delete_msg" id =' + result_twochat[i].id + ' ></span><span type="button"  class="glyphicon glyphicon-wrench update_msg update_msg btn" data-toggle="modal" id ="' +result_twochat[i].id + '" data-target="#myModal"></span></div>')
                                 $('.friend_msg').append('<div class="clear" ></div>')
                             }
                             else {
-                                $('.friend_msg').append('<div  style="float:right" class="alert alert-info two_chat_all" id='+result_twochat[i].id+'>'+result_twochat[i].msg+ '</div>')
+                                $('.friend_msg').append('<div  style="float:right" class="alert alert-info two_chat_all" id="msg_'+result_twochat[i].id+'">'+result_twochat[i].msg+ '<span class="glyphicon glyphicon-trash delete_msg" id =' + result_twochat[i].id + ' ></span><span type="button"  class="glyphicon glyphicon-wrench update_msg update_msg btn" data-toggle="modal" id ="' +result_twochat[i].id + '" data-target="#myModal"></span></div>')
                                 $('.friend_msg').append('<div class="clear" ></div>')
                             }
 
                         }
                         else{
                             if(result_twochat[i].img !=0) {
-                                $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:left">'+result_twochat[i].msg +'<br> <br> <img  src="../img/chattwo/'+result_twochat[i].img+'" ></div>')
+                                $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:left" id="msg_'+result_twochat[i].id+'">'+result_twochat[i].msg +'<br> <br> <img  src="../img/chattwo/'+result_twochat[i].img+'" ><span class="glyphicon glyphicon-trash delete_msg" id =' + result_twochat[i].id + ' ></span></div>')
                                 $('.friend_msg').append('<div class="clear" ></div>')
                             }
 
                             else {
-                                $('.friend_msg').append('<div  style="float:left" class="alert alert-info two_chat_all" id='+result_twochat[i].id+'>'+result_twochat[i].msg+ '</div>')
+                                $('.friend_msg').append('<div  style="float:left" class="alert alert-info two_chat_all" id="msg_'+result_twochat[i].id+'">'+result_twochat[i].msg+ '<span class="glyphicon glyphicon-trash delete_msg" id =' + result_twochat[i].id + ' ></span></div>')
                                 $('.friend_msg').append('<div class="clear" ></div>')
                             }
                         }
@@ -179,37 +256,55 @@
                     contentType: false,
                     success:function(data_all){
                         var arr =JSON.parse(data_all);
-                        if(arr['image_name'] !==0) $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:right">'+ msg +'<br> <br> <img  src="../img/chattwo/'+arr['image_name']+'" ></div>')
-                        else    $('.friend_msg').append('<div  style="clear:both;float:right" class="alert alert-info two_chat_all">'+ msg +'  </div>')
+                        if(arr['image_name'] !==0) $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:right" id="msg_'+arr.insertedId+'">'+ msg +'<br> <br> <img  src="../img/chattwo/'+arr['image_name']+'" ><span class="glyphicon glyphicon-trash delete_msg btn" id ="' + arr.insertedId + '" ></span><span type="button"  class="glyphicon glyphicon-wrench update_msg update_msg btn" data-toggle="modal" id ="' +arr.insertedId + '" data-target="#myModal"></span></div>')
+                        else    $('.friend_msg').append('<div  style="clear:both;float:right" class="alert alert-info two_chat_all" id="msg_'+arr.insertedId+'">'+ msg +'<span class="glyphicon glyphicon-trash delete_msg btn" id ="' + arr.insertedId + '" ></span><span type="button"  class="glyphicon glyphicon-wrench update_msg update_msg btn" data-toggle="modal" id ="' +arr.insertedId + '" data-target="#myModal"></span></div>')
                     }
                 })
             }
 
         });
 
-        function liveChat2(){
 
+        function  updatedmessages() {
+           userId =  $('.send2').attr('user');
+           //alert(userId);
+            $.ajax({
+                url: '/getupdatedmessages',
+                type:'POST',
+                data: {_token: '{{csrf_token()}}', userId: userId},
+                success: function (data) {
+                   var jsondata =$.parseJSON(data);
+                    $.each(jsondata.updatemsg, function (key, value) {
+                        $('#msg_'+value.id).empty();
+                        $('#msg_'+value.id).append(value.msg+' <span class="glyphicon glyphicon-trash delete_msg" id="'+value.id+'"></span>');
+
+                    })
+                }
+            });
+
+
+        }
+
+        function liveChat2(){
             if($('.name_friend'))
                 var friend_id=$('.name_friend').attr('id');
             else friend_id=0;
-//            console.log(friend_id)
             $.ajax({
                 url: '{{url("ajax2")}}',
                 data: {_token: '{{csrf_token()}}', friend_id: friend_id},
                 success: function (data_all) {
                     if (data_all != 0) {
                         var arr = JSON.parse(data_all);
-//                        console.log(arr['friend_id_new'])
+                  console.log(arr)
                         if(friend_id==arr['friend_id_new'])
-                            if (arr['image_name'] != 0) $('.friend_msg').append('<div  style="float:left;clear:both" class="alert alert-info ajax2_div">' + arr['msg'] + ' <br><br> <img  src="../img/chattwo/' + arr['image_name'] + '" ></div>')
-                            else   $('.friend_msg').append('<div  style="float:left;clear:both" class="alert alert-info ajax2_div">' + arr['msg'] + '  </div>')
+                            if (arr['image_name'] != 0) $('.friend_msg').append('<div  style="float:left;clear:both" class="alert alert-info ajax2_div" id="msg_'+arr['messageid']+'">' + arr['msg'] + ' <br><br> <img  src="../img/chattwo/' + arr['image_name'] + '" ><span class="glyphicon glyphicon-trash delete_msg btn" id ="'+arr['messageid']+'" ></span></div>')
+                            else   $('.friend_msg').append('<div  style="float:left;clear:both" class="alert alert-info ajax2_div" id="msg_'+arr['messageid']+'">' + arr['msg'] + '<span class="glyphicon glyphicon-trash delete_msg btn" id ="' + arr['messageid'] + '" ></span></div>')
                     }
                 }
             });
 
         }
-        setInterval(liveChat2,1000);
-
+        setInterval(liveChat2,3000);
 
 
         function liveChat3(){
@@ -228,7 +323,7 @@
             });
 
         }
-        setInterval(liveChat3,1000);
+        setInterval(liveChat3,4000);
 
 //        online friendd
         function online_friend(){
@@ -253,66 +348,58 @@
             });
 
         }
-        setInterval(online_friend,1000);
+        setInterval(online_friend,3000);
+        
+        
+//        delete my_msg
+
+
+    $(document).on( "click", ".delete_msg", function() {
+        var msg_id = $(this).attr('id');
+             $.ajax({
+            url: '/delete_msg',
+            type: 'POST',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            data: {msg_id: msg_id},
+            success: function (data) {
+                if(data == 1){
+                    $('#msg_'+msg_id).remove();
+                }
+            }
+        });
+    });
+
+        $(document).on( "click", ".update_msg", function() {
+            var id = $(this).attr('id');
+            var text = $('#msg_'+id).text();
+            $('#message-text').val(text);
+             $('#message-text').attr('messageid',id);
+
+        });
+
+
+        $(document).on( "click", ".save_changes", function() {
+           var messageid =  $('#message-text').attr('messageid');
+           var messagecontent = $('#message-text').val();
+            $.ajax({
+                url: '/updatemessage',
+                type: 'POST',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                data: {messageid: messageid,messagecontent:messagecontent},
+                success: function (data) {
+                    var jsondata = $.parseJSON(data)
+                    if(jsondata.data == 1){
+                        $('#msg_'+messageid).html(messagecontent+'<span class="glyphicon glyphicon-trash delete_msg" id =' + messageid + ' ></span><span type="button"  class="glyphicon glyphicon-wrench update_msg update_msg btn" data-toggle="modal" id ="' +messageid + '" data-target="#myModal"></span>');
+                    }
+                }
+            });
+
+        });
+
+
+
+
+
     });
 </script>
 @stop
-<style>
-    .users{
-        width: 20%;
-        float: left;
-        margin-left: 4%;
-    }
-    .twochat{
-        width: 40%;
-        float:left;
-        background-color:#499249;
-        margin-left: 3%;
-        padding: 2%;
-    }
-    .name_friend, .name_friend2{
-        background-color: #0e0e0e ;
-        color: #EEEEEE;
-        margin-bottom: 1%;
-        padding: 2%;border-radius: 10px;
-        clear: both;
-        /*float:right;*/
-    }
-    .clear{
-        clear:both;
-    }
-
-
-    /*my friend*/
-
-    .my_friends  {
-        width:30%;
-        float:right;
-        background-color: #151515;
-    }
-
-    .my_friend{
-        width:90%;
-        font-size: 30px;
-        margin: 2% auto;
-    }
-
-    .online{
-        border-radius: 50%;
-        background-color: #00dd00;
-        width: 20px;
-        height: 20px;
-        float:right;
-        margin-top: 5%;
-        margin-right: 5%;
-    }
-    .noonline{
-        border-radius: 50%;
-        background-color: #761c19;
-        width: 20px;
-        height: 20px;
-        float:right;
-        margin-top: 5%;
-        margin-right: 5%;
-    }
-</style>

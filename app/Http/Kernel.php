@@ -4,8 +4,8 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
-class Kernel extends HttpKernel
-{
+class Kernel extends HttpKernel {
+
     /**
      * The application's global HTTP middleware stack.
      *
@@ -15,6 +15,13 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+//        'App\Http\Middleware\Language',
+//        'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
+//        'Illuminate\Cookie\Middleware\EncryptCookies',
+//        'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
+//        'Illuminate\Session\Middleware\StartSession',
+//        'Illuminate\View\Middleware\ShareErrorsFromSession',
+//        'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken',
     ];
 
     /**
@@ -31,7 +38,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-
         'api' => [
             'throttle:60,1',
             'bindings',
@@ -53,6 +59,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'login_auth' => \App\Http\Middleware\Chake::class,
-
     ];
+
 }

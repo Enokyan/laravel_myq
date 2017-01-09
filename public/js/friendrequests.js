@@ -4,7 +4,7 @@ $(document).ready(function(){
         var token = $("input[name=_token]").val();
         if(id){
             $.ajax({
-                url:'getfriendrequests',
+                url:'/getfriendrequests',
                  type:'POST',
                 data:{_token:token},
                 success:function (data) {
@@ -34,7 +34,7 @@ $(document).ready(function(){
         $('#friends').html('');
         if(id) {
             $.ajax({
-                url: 'selectfriendrequests',
+                url: '/selectfriendrequests',
                 type: 'POST',
                 data: {_token: token},
                 success: function (data) {
@@ -75,7 +75,7 @@ $(document).ready(function(){
         var id = $(this).val();
         var token = $("input[name=_token]").val();
         $.ajax({
-                url: 'addfriend',
+                url: '/addfriend',
                 type: 'POST',
                 data: {_token: token,table_id:id},
                 success: function (data) {
@@ -90,7 +90,7 @@ $(document).ready(function(){
         var id = $(this).val();
         var token = $("input[name=_token]").val();
         $.ajax({
-            url: 'deletefriend',
+            url: '/deletefriend',
             type: 'POST',
             data: {_token: token,table_id:id},
             success: function (data) {
@@ -104,7 +104,7 @@ $(document).ready(function(){
     // .logaut_online
     $(document).on('click','.logaut_online',function(){
         $.ajax({
-            url: 'logaut_online',
+            url: '/logaut_online',
             type: 'get',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             success: function (data) {

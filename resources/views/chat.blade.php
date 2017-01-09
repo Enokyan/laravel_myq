@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html class="no-js">
 
 <head>
@@ -12,7 +12,7 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-   
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -22,74 +22,46 @@
 
 </head>
 <body style="background: rgb(180,180,180)">
-    <div class="container">
-        <div class="big_div">
-            <div class="row"  style="clear:both">
-                <div class="coll-md-6"  style="clear:both">
-                    <div class="chat-box"  style="clear:both">
+<div class="container">
+    <div class="big_div">
+        <div class="row"  style="clear:both">
+            <div class="coll-md-6"  style="clear:both">
+                <div class="chat-box"  style="clear:both">
                     @foreach($result as $msg)
                         {{--<div class="alert alert-info"><span style="color:#800">{{$msg->user_name}} :</span> {{$msg->msg}}</div>--}}
                         <?php
-                            $img = $msg->img;
-                            if($img!=0){
-                                echo '<div class="alert alert-info"  style="clear:both"><span style="color:#800">'.$msg->user_name.' :</span> '.$msg->msg.' <br> <br>  <img  src=../img/chat/'.$img.'></div>';
-                            }
-                            else{
-                                echo '<div class="alert alert-info"  style="clear:both"><span style="color:#800">'.$msg->user_name.' :</span> '.$msg->msg.'  </div>';
-                            }
+                        $img = $msg->img;
+                        if($img!=0){
+                            echo '<div class="alert alert-info"  style="clear:both"><span style="color:#800">'.$msg->user_name.' :</span> '.$msg->msg.' <br> <br>  <img  src=../img/chat/'.$img.'></div>';
+                        }
+                        else{
+                            echo '<div class="alert alert-info"  style="clear:both"><span style="color:#800">'.$msg->user_name.' :</span> '.$msg->msg.'  </div>';
+                        }
                         ?>
                     @endforeach
-                    </div>
-                    <input type='text' class="form-control send"></input>
-
-                    <form class="upload-form">
-                        <input type="file" id="photo" name="input_photo" class="input_photo" />
-                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-
-                    </form>
-                    <button id="send-sms">send</button><br>
                 </div>
+                <input type='text' class="form-control send"></input>
+
+                <form class="upload-form">
+                    <input type="file" id="photo" name="input_photo" class="input_photo" />
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+
+                </form>
+                <button id="send-sms">send</button><br>
             </div>
         </div>
-
-        {{--two chat--}}
-        <div class="users">
-            <input type="text" class="users_all tt-query" autocomplete="off" spellcheck="false">
-            <br><br>
-
-        </div>
-{{--///two chat--}}
-        <div class="twochat">
-
-            <div class="sms"></div>
-            <div class="friend_name"></div>
-            <div class="name_friend" id="0"></div>
-            <div class="friend_msg"></div>
-{{--//send chattwo--}}
-            <input type='text' class="form-control send2"></input>
-
-            <form class="upload-form2">
-                <input type="file" id="photo2" name="input_photo2" class="input_photo2" />
-                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-
-            </form>
-            <button id="send_sms2">send2</button><br>
-        </div>
     </div>
 
-    <div class="bs-example">
-        <h2>Type your favorite car name</h2>
-        <input type="text" class="typeahead tt-query" autocomplete="off" spellcheck="false">
-    </div>
+
+
+
+
 </body>
-{{--<!-- Jquery -->--}}
-{{--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=en-US"></script>--}}
-{{--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.9.3/typeahead.min.js"></script>--}}
-{{--<script type="text/javascript" src="https://rawgithub.com/sgruhier/typeahead-addresspicker/master/dist/typeahead-addresspicker.js"></script>--}}
+
 <script>
     $( document ).ready(function() {
 //users_all
-            $( ".users_all" ).keyup(function() {
+        $( ".users_all" ).keyup(function() {
             var search_users=$('.users_all').val();
             $.ajax({
                 type:'post',
@@ -110,38 +82,39 @@
             });
         })
 //usser send
-    $(document).on('click', '#send-sms', function(e){
-        var msg = $('.send').val();
-        var element = $('.send');
-        var empty = '';
-        var images=$('.input_photo').val();
-        var file = document.getElementById("photo").files[0];
-        var formData = new FormData();
-        formData.append('message',msg);
-        if($('#photo').val()!='')    formData.append('img',file);
-        else   formData.append('img',empty);
-        $('#photo').val('');
-        element.val('');
-        if(msg != ''){
-            $.ajax({
-                url:'{{url("chat/add")}}',
-                type:'post',
-                cache: false,
-                enctype: 'multipart/form-data',
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                data:formData,
-                processData: false,
-                contentType: false,
-                success:function(data_all){
-                    var arr =JSON.parse(data_all);
-                    if(arr['image_name'] !==0) $('.chat-box').append('<div class="alert alert-info append-sms" style="clear:both"><span style="color:#800">'+arr['auth_name']+' : </span>'+ msg +'<br> <br> <img  src="../img/chat/'+arr['image_name']+'" ></div>')
-                    else    $('.chat-box').append('<div  style="clear:both" class="alert alert-info append-sms"><span style="color:#800">'+arr['auth_name']+' : </span>'+ msg +'  </div>')
-                }
-            })
-        }
-    });
+        $(document).on('click', '#send-sms', function(e){
+            var msg = $('.send').val();
+            var element = $('.send');
+            var empty = '';
+            var images=$('.input_photo').val();
+            var file = document.getElementById("photo").files[0];
+            var formData = new FormData();
+            formData.append('message',msg);
+            if($('#photo').val()!='')    formData.append('img',file);
+            else   formData.append('img',empty);
+            $('#photo').val('');
+            element.val('');
+            if(msg != ''){
+                $.ajax({
+                    url:'{{url("chat/add")}}',
+                    type:'post',
+                    cache: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    data:formData,
+                    processData: false,
+                    contentType: false,
+                    success:function(data_all){
+                        var arr =JSON.parse(data_all);
+                        console.log(arr)
+                        if(arr['image_name'] !==0) $('.chat-box').append('<div class="alert alert-info append-sms" style="clear:both"><span style="color:#800">'+arr['auth_name']+' : </span>'+ msg +'<br> <br> <img  src="../img/chat/'+arr['image_name']+'" ><span class="glyphicon glyphicon-trash delete_msg btn" id ="' +arr['id']  + '" ></span> <span type="button"  class="glyphicon glyphicon-wrench update_msg update_msg btn" data-toggle="modal" id ="' +arr['id'] + '" data-target="#myModal"></span></div>')
+                        else    $('.chat-box').append('<div  style="clear:both" class="alert alert-info append-sms"><span style="color:#800">'+arr['auth_name']+' : </span>'+ msg +'<span class="glyphicon glyphicon-trash delete_msg btn" id ="' + arr['id'] + '" ></span><span type="button"  class="glyphicon glyphicon-wrench update_msg update_msg btn" data-toggle="modal" id ="' +arr['id'] + '" data-target="#myModal"></span></div>')
+                    }
+                })
+            }
+        });
 //    ajax formData Send
-           function liveChat(){
+        function liveChat(){
             $.ajax({
                 url:'{{url("ajax")}}',
                 data:{_token:'{{csrf_token()}}'},
@@ -149,16 +122,17 @@
                 {
                     if(data_all != 0){
                         var arr =JSON.parse(data_all);
-                        if(arr['image_name']!=0)  $('.chat-box').append('<div  style="clear:both" class="alert alert-info"><span style="color:#800">'+arr['auth_name']+' : </span>'+ arr['msg'] +' <br><br> <img  src="../img/chat/'+arr['image_name']+'" ></div>')
-                        else   $('.chat-box').append('<div  style="clear:both" class="alert alert-info"><span style="color:#800">'+arr['auth_name']+' : </span>'+ arr['msg'] +'  </div>')
+                        if(arr['image_name']!=0)  $('.chat-box').append('<div  style="clear:both" class="alert alert-info"><span style="color:#800">'+arr['auth_name']+' : </span>dddddddddddddd'+ arr['msg'] +' <br><br> <img  src="../img/chat/'+arr['image_name']+'" ></div>')
+                        else   $('.chat-box').append('<div  style="clear:both" class="alert alert-info"><span style="color:#800">'+arr['auth_name']+' : </span>ffffffffffffff'+ arr['msg'] +'  </div>')
                     }
                 }
             });
-        }setInterval(liveChat,1000);
+        }
 
-//    chat two
+        setInterval(liveChat,2000);
+/
 
-        //users_choose chattwo
+
         $(document).on('click', '.user_choose', function(e){
             var friend_name=$(this).text();
             var friend_id=$(this).attr('id');
@@ -172,42 +146,36 @@
                 success:function(result_twochat)
                 {
                     $( ".two_chat_all" ).remove();
-
                     for(var i=0;i<result_twochat.length;i++){
                         if(friend_id != result_twochat[i].user_id){
                             if(result_twochat[i].img !=0) {
                                 $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:right">'+result_twochat[i].msg +'<br> <br> <img  src="../img/chattwo/'+result_twochat[i].img+'" ></div>')
                                 $('.friend_msg').append('<div class="clear" ></div>')
                             }
-
                             else {
                                 $('.friend_msg').append('<div  style="float:right" class="alert alert-info two_chat_all" id='+result_twochat[i].id+'>'+result_twochat[i].msg+ '</div>')
                                 $('.friend_msg').append('<div class="clear" ></div>')
                             }
-
                         }
                         else{
                             if(result_twochat[i].img !=0) {
                                 $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:left">'+result_twochat[i].msg +'<br> <br> <img  src="../img/chattwo/'+result_twochat[i].img+'" ></div>')
                                 $('.friend_msg').append('<div class="clear" ></div>')
                             }
-
                             else {
                                 $('.friend_msg').append('<div  style="float:left" class="alert alert-info two_chat_all" id='+result_twochat[i].id+'>'+result_twochat[i].msg+ '</div>')
                                 $('.friend_msg').append('<div class="clear" ></div>')
                             }
                         }
                     }
-
                 }
             });
             $('.ajax2_div').remove();
         })
 //user send 2
-        $(document).on('click', '.send2', function(e){
-//            alert(1)
-        })
+
         $(document).on('click', '#send_sms2', function(e){
+            alert('aaaaaaaaaaaaaaa');
             var msg = $('.send2').val();
             var friend_id=$('.name_friend').attr('id');
             var element = $('.send2');
@@ -233,80 +201,15 @@
                     contentType: false,
                     success:function(data_all){
                         var arr =JSON.parse(data_all);
-                        if(arr['image_name'] !==0) $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:right">'+ msg +'<br> <br> <img  src="../img/chattwo/'+arr['image_name']+'" ></div>')
-                        else    $('.friend_msg').append('<div  style="clear:both;float:right" class="alert alert-info two_chat_all">'+ msg +'  </div>')
+                        console.log(arr.insertedId);
+                        if(arr['image_name'] !==0) $('.friend_msg').append('<div class="alert alert-info two_chat_all" style="float:right">'+ msg +'<br><br><img  src="../img/chattwo/'+arr['image_name']+'" ><span class="glyphicon glyphicon-trash delete_msg btn" id ="' + arr.insertedId + '" ></span><span type="button"  class="glyphicon glyphicon-wrench update_msg update_msg btn" data-toggle="modal" id ="' +arr.insertedId + '" data-target="#myModal"></span></div>')
+                        else    $('.friend_msg').append('<div  style="clear:both;float:right" class="alert alert-info two_chat_all">'+ msg +'<span class="glyphicon glyphicon-trash delete_msg btn" id ="' + arr.insertedId + '" ></span><span type="button"  class="glyphicon glyphicon-wrench update_msg update_msg btn" data-toggle="modal" id ="' +arr.insertedId + '" data-target="#myModal"></span></div>')
                     }
                 })
             }
-
         });
-// ajax formData send2
 
-        {{--function liveChat2(){--}}
-            {{--var friend_id=$('.name_friend').attr('id');--}}
-            {{--console.log(friend_id)--}}
-                {{--$.ajax({--}}
-                    {{--url: '{{url("ajax2")}}',--}}
-                    {{--data: {_token: '{{csrf_token()}}', friend_id: friend_id},--}}
-                    {{--success: function (data_all) {--}}
-                        {{--if (data_all != 0) {--}}
-                            {{--var arr = JSON.parse(data_all);--}}
-                            {{--console.log(arr['friend_id_new'])--}}
-                            {{--if(friend_id==arr['friend_id_new'])--}}
-                            {{--if (arr['image_name'] != 0) $('.friend_msg').append('<div  style="float:left;clear:both" class="alert alert-info ajax2_div">' + arr['msg'] + ' <br><br> <img  src="../img/chattwo/' + arr['image_name'] + '" ></div>')--}}
-                            {{--else   $('.friend_msg').append('<div  style="float:left;clear:both" class="alert alert-info ajax2_div">' + arr['msg'] + '  </div>')--}}
-                        {{--}--}}
-                    {{--}--}}
-                {{--});--}}
-
-        {{--}--}}
-        {{--setInterval(liveChat2,1000);--}}
-//ajax msg_count_name
-        {{--function liveChat3(){--}}
-            {{--$.ajax({--}}
-                {{--url: '{{url("ajax3")}}',--}}
-                {{--headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },--}}
-                {{--success: function (data_all_count) {--}}
-                    {{--var arr_all = JSON.parse(data_all_count);--}}
-
-                    {{--if(arr_all != '') {--}}
-                        {{--arr_name = [];--}}
-                        {{--for (j = 0; j < arr_all.length; j++) {--}}
-                            {{--arr_name[j] = arr_all[j];--}}
-
-                            {{--$('#'+arr_name[j].id+'').remove();--}}
-                            {{--$('.sms').append('<div  style="float:right" id='+arr_name[j].id+' class="user_choose new_message">' +  arr_name[j].name + '  </div>')--}}
-                        {{--}--}}
-                        {{--console.log(arr_all.length)--}}
-                    {{--}--}}
-                {{--}--}}
-            {{--});--}}
-
-        {{--}--}}
-        {{--setInterval(liveChat3,1000);--}}
-
-
-///////////////////////////////////
-//        var cars = ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen'];
-//
-//        // Constructing the suggestion engine
-//        var cars = new Bloodhound({
-//            datumTokenizer: Bloodhound.tokenizers.whitespace,
-//            queryTokenizer: Bloodhound.tokenizers.whitespace,
-//            local: cars
-//        });
-//
-//        // Initializing the typeahead
-//        $('.typeahead').typeahead({
-//                hint: true,
-//                highlight: true, /* Enable substring highlighting */
-//                minLength: 1 /* Specify minimum characters required for showing result */
-//            },
-//            {
-//                name: 'cars',
-//                source: cars
-//            });
-});
+    });
 </script>
 @stop
 <style>
@@ -337,56 +240,4 @@
     .clear{
         clear:both;
     }
-
-    /*search carr*/
-
-    .bs-example {
-        font-family: sans-serif;
-        position: relative;
-        margin: 100px;
-    }
-    .typeahead, .tt-query, .tt-hint {
-        border: 2px solid #CCCCCC;
-        border-radius: 8px;
-        font-size: 22px; /* Set input font size */
-        height: 30px;
-        line-height: 30px;
-        outline: medium none;
-        padding: 8px 12px;
-        width: 100%;
-    }
-    .typeahead {
-        background-color: #FFFFFF;
-    }
-    .typeahead:focus {
-        border: 2px solid #0097CF;
-    }
-    .tt-query {
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    }
-    .tt-hint {
-        color: #999999;
-    }
-    .tt-menu {
-        background-color: #FFFFFF;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 8px;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        margin-top: 12px;
-        padding: 8px 0;
-        width: 422px;
-    }
-    .tt-suggestion {
-        font-size: 22px;  /* Set suggestion dropdown font size */
-        padding: 3px 20px;
-    }
-    .tt-suggestion:hover {
-        cursor: pointer;
-        background-color: #0097CF;
-        color: #FFFFFF;
-    }
-    .tt-suggestion p {
-        margin: 0;
-    }
-
 </style>

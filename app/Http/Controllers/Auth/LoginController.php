@@ -7,31 +7,35 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Language;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-class LoginController extends Controller
-{
 
+class LoginController extends Controller {
 
     use AuthenticatesUsers;
 
+    public $language;
+    public $data = array();
+    protected $redirectTo = '';
 
-    protected $redirectTo = '/home';
-
-    public function __construct()
-    {
-
+    public function __construct() {
         $this->middleware('guest', ['except' => 'logout']);
-
+        $language = new Language();
+        $this->language = $language->language;
+        $this->data['language'] = $this->language;
+        session()->put('language', $this->language);
+       // dd(session()->get('language'));
+        $this->redirectTo = '/' . $this->language . '/home';
+        
     }
 
-    public function login(Request $request)
-    {
+    public function showLoginForm() {
+        return view('auth.login')->with($this->data);
+    }
+
+    public function login(Request $request) {
         $this->validateLogin($request);
 
-        // If the class is using the ThrottlesLogins trait, we can automatically throttle
-        // the login attempts for this application. We'll key this by the username and
-        // the IP address of the client making these requests into this application.
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
@@ -46,22 +50,23 @@ class LoginController extends Controller
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
-        $auth_id=Auth::id();
+        $auth_id = Auth::id();
         DB::table('users')
-            ->where('id', $auth_id)
-            ->update(['online' => 1]);
+                ->where('id', $auth_id)
+                ->update(['online' => 1]);
         return $this->sendFailedLoginResponse($request);
+                
     }
 
-
-    public function logout(Request $request) {
+    public function logout(Request $request,$language) {
         $currentuser = Auth::user()->id;
         DB::table('users')
-            ->where('id', $currentuser)
-            ->update(['online' => 0]);
+                ->where('id', $currentuser)
+                ->update(['online' => 0]);
         $this->guard()->logout();
         $request->session()->flush();
         $request->session()->regenerate();
-        return redirect( '/login');
+        return redirect($language . '/login');
     }
+
 }

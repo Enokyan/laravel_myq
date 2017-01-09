@@ -1,13 +1,54 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-@section('content')
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Styles -->
+    <link href="/css/app.css" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script>
+        window.Laravel = <?php
+        echo json_encode([
+            'csrfToken' => csrf_token(),
+        ]);
+        ?>
+    </script>
+
+    {{--full calendar--}}
+
+    {{--<link rel="stylesheet" href="/css/bootstrap.css">--}}
+    <link rel="stylesheet" href="/css/mycss.css">
+    <link rel="stylesheet" href="/css/bootstrap-responsive.css">
+    {{--<link rel="stylesheet" href="/css/custom-styles.css">--}}
+    <link rel="stylesheet" href="/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/font-awesome-ie7.css">
+
+
+    {{--full calendar--}}
+    <link rel='stylesheet' href="/node_modules/fullcalendar/dist/fullcalendar.css">
+    <link rel='stylesheet' href="/node_modules/fullcalendar/dist/fullcalendar.print.css" media='print'>
+    {{--online jquery--}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+
+</head>
+<body>
 <div class="container">
-    <div class="row">
+    <div class="row" style="margin-top: 90px;">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url($language.'/login') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
@@ -52,18 +93,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
-                                <br><br>
-                                 <a class="btn btn-primary" href="/redirect/facebook">
-                                    Login Facebook
-                                </a>
-                                <br><br>
-                                <a class="btn btn-primary" href="/redirect/google">
-                                    Login Google
-                                </a>
-                                <br><br>
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">
-                                    Forgot Your Password?
-                                </a>
+
                             </div>
                         </div>
                     </form>
@@ -72,4 +102,5 @@
         </div>
     </div>
 </div>
-@endsection
+</body>
+</html>

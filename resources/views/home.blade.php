@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
 <body style="background-color: #954120">
 <div class="container">
 
-    {{--my profil update--}}
     <div class="my_profil">
-        <h1>My Profil</h1>
+        <h1>{{trans('translate.my_profile')}}</h1>
         <div class="my_user">
             @foreach($myuser as $user)
                 <h3><p><span style="color:#800">My Name :</span> {{$user->name }}</p></h3>
@@ -25,24 +25,17 @@
         @endforeach
     </div>
 
-    {{--add friend--}}
+
     <div class="friend">
         <input type="text" class="searchUsers">
         <div class="search" style="display:none">
             <table class = "table table-condensed addusersintable">
             </table>
         </div>
-        {{--<h1>Friend???</h1>--}}
-
-        {{--@foreach($user_friend as $friend)--}}
-            {{--<div class="one_friend">--}}
-                {{--<div class="h3" ><p><span style="color:#800">Name :</span> {{$friend ->name }}</p></div>--}}
-                {{--<input type="button" id={{$friend->id}} class="add_friend friend_{{$friend->id}}" value="Send Request"/>--}}
-            {{--</div>--}}
-        {{--@endforeach--}}
+        
     </div>
 
-    {{--add product--}}
+
     <div class="add_product">
         <h1>&nbsp;Add_Product</h1>
         <div class="panel-body">
@@ -79,7 +72,7 @@
             var data_user   = $('.update_element').children().eq(3).val();
             $.ajax({
                 type:'post',
-                url:'user/update',
+                url:'/user/update',
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 data:{
                     update_name:update_name,
@@ -156,7 +149,7 @@ console.log(html);
             var userId = $(this).val();
             var token = $("input[name=_token]").val();
             $.ajax({
-                url: "frendrequest",
+                url: "/frendrequest",
                 data: {_token: token, userId: userId},
                 type: "POST",
                 success: function (data) {
@@ -177,7 +170,7 @@ console.log(html);
             console.log(id);
             var token = $("input[name=_token]").val();
             $.ajax({
-                url: 'deletefriend',
+                url: '/deletefriend',
                 type: 'POST',
                 data: {_token: token,table_id:userId},
                 success: function (data) {
@@ -234,7 +227,7 @@ console.log(html);
         padding: 10px;
     }
     .my_profil h1{
-        width:28%;
+        width:41%;
         margin:10px auto;
         color: saddlebrown;
     }
@@ -266,7 +259,7 @@ console.log(html);
 
     .one_friend{
         width:90%;
-        height:100px; //?????
+        height:100px; 
         background-color: #ee5d4b;
         margin-bottom: 20%;
         margin-left: 4%;

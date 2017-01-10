@@ -26,7 +26,10 @@ class HomeController extends Controller {
 
     public function index() {
         $auth_id = Auth::id();
-        $user = DB::table('users')->select('*')->where('id', '=', $auth_id)->get();
+        $user = DB::table('users')
+                ->select('*')
+                ->where('id', '=', $auth_id)
+                ->get();
         $update = DB::table('users')->where('id', '=', $auth_id)->where('online', '!=', 1)->update(['online' => 1]);
         $user_friend = DB::table('users')->select('*')->where('id', '!=', $auth_id)->get();
         $thid->data['myuser'] = $user;

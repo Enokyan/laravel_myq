@@ -82,5 +82,11 @@ Route::post('/user/update', ['uses' => 'HomeController@update_user']);
 
 
 //Admin
-Route::get('login/admin', 'AdminController@loginForm');
-
+Route::get('/admin', 'AdminController@loginForm');
+Route::post('checkdata', 'AdminController@checkdata');
+Route::get('admin_home', 'AdminController@home');
+Route::get('admin_logout', 'AdminController@adminlogout');
+Route::get('deleteuser/{id}', 'AdminController@deleteuser');
+Route::get('users', 'AdminController@users');
+Route::post('updateuserdata', 'AdminController@updateuserdata');
+Route::get('viewprofile/{id}', 'AdminController@viewprofile');

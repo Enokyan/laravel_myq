@@ -85,14 +85,14 @@ echo json_encode([
             </nav>
             <div class="container">
                 <div class="row">
-                    <h2 class="username">Hi Admin</h2>
+                    <h2 class="username"><?php echo $userdata->name;?></h2>
                 </div>
             </div>
-            <!-- Scripts -->
+          
             <script src="/js/app.js"></script>
             <script src="/js/bootstrap.js"></script>
             <script src="/js/jquery.dataTables.min.js"></script>
             <script src="/js/dataTables.bootstrap.js"></script>
-
+</div>
     </body>
 </html>

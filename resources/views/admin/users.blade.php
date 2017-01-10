@@ -135,6 +135,8 @@ echo json_encode([
           <h4 class="modal-title">Add user</h4>
         </div>
         <div class="modal-body">
+            <form role="form" method="POST" action="{{ url('/createnewuser') }}">
+              {{ csrf_field() }}
          <div class="form-group">
            <label for="exampleInputEmail1">User name</label>
            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="User name" required>
@@ -151,10 +153,10 @@ echo json_encode([
            <label for="exampleInputEmail1">User date</label>
           <input id="text" type="text" class="form-control datepickerrrr" name="birthday">
           </div>
-            
+            </form>
         </div>
         <div class="modal-footer">
-              <button type="button" class="btn btn-primary adduser" data-dismiss="modal">Add</button>
+              <button type="submit" class="btn btn-primary adduser" data-dismiss="modal">Add</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>

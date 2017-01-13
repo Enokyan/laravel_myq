@@ -139,24 +139,25 @@ echo json_encode([
               {{ csrf_field() }}
          <div class="form-group">
            <label for="exampleInputEmail1">User name</label>
-           <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="User name" required>
+           <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="User name" required>
           </div>
             <div class="form-group">
            <label for="exampleInputEmail1">User email</label>
-           <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="User email" required>
+           <input type="email" class="form-control" name ="useremail" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="User email" required>
           </div>
              <div class="form-group">
            <label for="exampleInputEmail1">User password</label>
-           <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="User password" required>
+           <input type="password" class="form-control" name="userpassword" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="User password" required>
           </div>
             <div class="form-group">
            <label for="exampleInputEmail1">User date</label>
-          <input id="text" type="text" class="form-control datepickerrrr" name="birthday">
+          <input id="date" type="date" class="form-control datepickerrrr" name="birthday">
           </div>
-            </form>
+           
         </div>
         <div class="modal-footer">
-              <button type="submit" class="btn btn-primary adduser" data-dismiss="modal">Add</button>
+          <button type="submit" class="btn btn-primary adduser" >Add</button>
+           </form>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>

@@ -46,9 +46,13 @@ class HappyBirthday extends Command
 
         foreach( $tests as $user ) {
            if( $user->date == $date) {
-               $users_new = DB::table('users')->select('*')->where('date', '!=', null)->where('id', '!=', $user->id)->get();
+               $users_new = DB::table('users')
+                   ->select('*')->where('date', '!=', null)
+                   ->where('id', '!=', $user->id)
+                   ->get();
                foreach($users_new as $send_happy) {
-                   DB::table('twochat')->insert(['msg' => 'shnorhavorum em dzer cnndyan kapakcutyamb', 'img' => '', 'chack' => '0', 'user_id' => $send_happy->id, 'status' => '0', 'notification' => '0', 'user_id_new' => $user->id]);
+                   DB::table('twochat')
+                       ->insert(['msg' => 'shnorhavorum em dzer cnndyan kapakcutyamb', 'img' => '', 'chack' => '0', 'user_id' => $send_happy->id, 'status' => '0', 'notification' => '0', 'user_id_new' => $user->id]);
                }
            }
         }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller;
+//use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;

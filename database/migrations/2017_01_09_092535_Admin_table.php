@@ -14,6 +14,7 @@ class AdminTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password');
+             $table->integer('online')->default(0);
             $table->timestamps();
         });
     }

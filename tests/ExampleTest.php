@@ -13,7 +13,11 @@ class ExampleTest extends TestCase
      */
     public function testBasicExample()
     {
-        $this->visit('/')
-             ->see('Laravel');
+//        $this->visit('http://joni.am/en/login')
+//            ->type('Taylor@mail.ru', 'email')
+//            ->type('T456789', 'password')
+//            ->press('login');
+        $response = $this->call('POST','/createnewuser');
+
     }
 }
